@@ -15,3 +15,25 @@ services:
      frontend: 
           build:
               context: ./client
+          ports:
+              - "80:80"
+          network:
+               - demo
+     mongodb:
+          image: mongo:latest 
+          container_name: mongo
+          ports:
+               - "27017:27017"  
+          networks:
+               - demo
+          volumes:
+               - mongo-data:/data/db  
+
+networks:
+  demo:
+    driver: bridge 
+
+volumes:
+  mongo-data:
+    driver: local  # Persist MongoDB data locally
+
