@@ -1,36 +1,44 @@
-Version: "3.8"
-services:
-    backend:
-        build:
-            context: ./server
-        ports:
-            - "5000:5000"
-        depends_on:
-            - mongodb
-        network:
-            - demo
-        environment:
-            MONGO_URI: mongodb://mongo:27017/todo
+version: "3.8"
 
-     frontend: 
-          build:
-              context: ./client
-          ports:
-              - "80:80"
-          network:
-               - demo
-     mongodb:
-          image: mongo:latest 
-          container_name: mongo
-          ports:
-               - "27017:27017"  
-          networks:
-               - demo
-          volumes:
-               - mongo-data:/data/db  
+services:
+  backend:
+    build:
+      context: ./server
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    networks:
+      - demo
+    environment:
+      MONGO_URI: mongodb://mongo:27017/todo
+
+  frontend:
+    build:
+      context: ./client
+    ports:
+      - "80:80"
+    networks:
+      - demo
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - demo
+    volumes:
+      - mongo-data:/data/db
 
 networks:
   demo:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local  # Persist MongoDB data locally
+
     driver: bridge 
 
 volumes:
