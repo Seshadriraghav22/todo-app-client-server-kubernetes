@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   backend:
@@ -7,11 +7,11 @@ services:
     ports:
       - "5000:5000"
     depends_on:
-      - mongodb
+      - mongodb  # Ensures MongoDB starts before the backend
     networks:
       - demo
     environment:
-      MONGO_URI: mongodb://mongo:27017/todo
+      MONGO_URI: mongodb://mongo:27017/todo  # MongoDB connection string
 
   frontend:
     build:
@@ -25,23 +25,16 @@ services:
     image: mongo:latest
     container_name: mongo
     ports:
-      - "27017:27017"
+      - "27017:27017"  # Expose MongoDB port to the host (optional, for local development)
     networks:
       - demo
     volumes:
-      - mongo-data:/data/db
+      - mongo-data:/data/db  # Persist MongoDB data across container restarts
 
 networks:
   demo:
-    driver: bridge
+    driver: bridge  # Use the bridge network driver for communication between services
 
 volumes:
   mongo-data:
-    driver: local  # Persist MongoDB data locally
-
-    driver: bridge 
-
-volumes:
-  mongo-data:
-    driver: local  # Persist MongoDB data locally
-
+    driver: local  # Persist MongoDB data on the host filesystem
