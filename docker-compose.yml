@@ -1,0 +1,17 @@
+Version: "3.8"
+services:
+    backend:
+        build:
+            context: ./server
+        ports:
+            - "5000:5000"
+        depends_on:
+            - mongodb
+        network:
+            - demo
+        environment:
+            MONGO_URI: mongodb://mongo:27017/todo
+
+     frontend: 
+          build:
+              context: ./client
